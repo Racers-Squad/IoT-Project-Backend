@@ -25,8 +25,12 @@ public class CarController {
     }
 
     @PostMapping("/cars/add")
-    public ResponseEntity<?> addCar(@RequestBody String carNumber){
-        return ResponseEntity.ok("Privet");
+    public ResponseEntity<?> addCar(@RequestBody String carNumber, String carBrand){
+        if (carService.addCar(carNumber, carBrand)){
+            return ResponseEntity.ok("Car added.");
+        } else {
+            return ResponseEntity.status(500).body("Mqtt problems with adding car.");
+        }
     }
 
 }

@@ -1,11 +1,11 @@
 package backend.services;
 
 import backend.DTO.AuthRequest;
-import backend.entites.UserEntity;
+import backend.entity.UserEntity;
 import backend.exceptions.UserAlreadyExistsException;
 import backend.exceptions.UserNotFoundException;
 import backend.exceptions.WrongPasswordException;
-import backend.repositories.UserRepository;
+import backend.repository.UserRepository;
 import backend.security.Hasher;
 import backend.security.JwtUtils;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package backend.security;
 
-import backend.entites.UserEntity;
-import backend.repositories.UserRepository;
+import backend.entity.UserEntity;
+import backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

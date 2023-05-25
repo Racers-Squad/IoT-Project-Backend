@@ -8,5 +8,5 @@ public interface MqttService {
 
     public IMqttClient createClientWithAllTopics(IMqttMessageListener listener) throws MqttException;
 
-    public IMqttClient createClientWithTopic(String topic);
+    public IMqttClient createClientWithTopic(String topic, IMqttMessageListener listener) throws MqttException;
 }

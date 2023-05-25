@@ -1,7 +1,7 @@
 package backend.services;
 
 import backend.entity.CarParameters;
-import backend.repository.CarRepository;
+import backend.repository.CarMongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,20 +11,20 @@ import java.util.Optional;
 public class MongoSaver {
 
     @Autowired
-    private CarRepository carRepository;
+    private CarMongoRepository carMongoRepository;
 
     private void beforeSave(CarParameters carParameters) {
-        Optional<CarParameters> maybeParams = carRepository.findActualValueByCarId(carParameters.getCarId());
+        Optional<CarParameters> maybeParams = carMongoRepository.findActualValueByCarId(carParameters.getCarId());
         if (maybeParams.isPresent()) {
             CarParameters prevParams = maybeParams.get();
             prevParams.setValidTo(carParameters.getValidFrom());
-            carRepository.save(prevParams);;
+            carMongoRepository.save(prevParams);;
         }
     }
 
     public void save(CarParameters carParameters) {
         beforeSave(carParameters);
-        carRepository.save(carParameters);
+        carMongoRepository.save(carParameters);
     }
 
 }

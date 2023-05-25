@@ -62,14 +62,7 @@ public class UserController {
         return ResponseEntity.ok("LOGOUT");
     }
 
-    @GetMapping("/admin")
-    public ResponseEntity<?> checkAdminRoots(@RequestHeader(HttpHeaders.AUTHORIZATION) String auth) {
-        String token = jwtUtils.restructJwtHeader(auth);
-        boolean rights = userService.checkAdminRoots(token);
-        if (rights) {
-            return ResponseEntity.ok(true);
-        } else {
-            return ResponseEntity.ok(false);
-        }
-    }
+    @GetMapping("/admin")public ResponseEntity<?> checkAdminRoots(@RequestHeader(HttpHeaders.AUTHORIZATION) String auth) {
+        String token = jwtUtils.restructJwtHeader(auth);    boolean rights = userService.checkAdminRoots(token);
+        return ResponseEntity.ok(rights);}
 }

@@ -16,3 +16,8 @@ CREATE TABLE history (
     end_time    timestamp NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE cars (
+    car_number varchar(9) PRIMARY KEY NOT NULL,
+    car_brand varchar(255) NOT NULL
+);

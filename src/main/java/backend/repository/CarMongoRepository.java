@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface CarRepository extends MongoRepository<CarParameters, String> {
+public interface CarMongoRepository extends MongoRepository<CarParameters, String> {
 
     List<CarParameters> findByCarId(String id);
 

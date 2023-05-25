@@ -19,8 +19,13 @@ public class MqttServiceImpl implements MqttService {
     }
 
     @Override
-    public IMqttClient createClientWithTopic(String topic) {
-        return null;
+    public IMqttClient createClientWithTopic(String topic, IMqttMessageListener listener) throws MqttException {
+        String publisherId = UUID.randomUUID().toString();
+        IMqttClient subscriber = new MqttClient("tcp://localhost:1883",publisherId);
+        MqttConnectOptions options = generateConnectionOptions();
+        subscriber.connect(options);
+        subscriber.subscribe(topic, listener);
+        return subscriber;
     }
 
     private MqttConnectOptions generateConnectionOptions(){
