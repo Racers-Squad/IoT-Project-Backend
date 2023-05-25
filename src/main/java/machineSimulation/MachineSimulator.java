@@ -2,6 +2,7 @@ package machineSimulation;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class MachineSimulator {
@@ -39,6 +40,9 @@ public class MachineSimulator {
             System.exit(1);
         } catch (InterruptedException e) {
             System.err.println("Thread exception.");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("IOError. " + e.getMessage());
             System.exit(1);
         }
     }

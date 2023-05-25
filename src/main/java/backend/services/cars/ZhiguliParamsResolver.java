@@ -21,7 +21,7 @@ public class ZhiguliParamsResolver implements CarParamsResolver {
         parameterMappings.put(5L, ENGINE_RPM);
     }}
 
-    public CarParameters convertToGlobal(Long carId, Date validFrom, Map<Long, Object> values) {
+    public CarParameters convertToGlobal(String carId, Date validFrom, Map<Long, Object> values) {
         Map<CarParameter, Object> carParameterObjectMap = new HashMap<>();
         for (Map.Entry<Long, Object> entry : values.entrySet()) {
             carParameterObjectMap.put(parameterMappings.get(entry.getKey()), entry.getValue());

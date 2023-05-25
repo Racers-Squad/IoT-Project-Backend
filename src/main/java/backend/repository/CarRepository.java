@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface CarRepository extends MongoRepository<CarParameters, Long> {
+public interface CarRepository extends MongoRepository<CarParameters, String> {
 
-    List<CarParameters> findByCarId(Long id);
+    List<CarParameters> findByCarId(String id);
 
     @Query("{'validTo':  null, 'carId':  ?0}")
-    Optional<CarParameters> findActualValueByCarId(Long id);
+    Optional<CarParameters> findActualValueByCarId(String id);
 
 }

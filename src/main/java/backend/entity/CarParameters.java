@@ -12,7 +12,7 @@ public class CarParameters {
     @Id
     private Long id;
 
-    private Long carId;
+    private String carId;
 
     private Date validFrom;
     private Date validTo;
@@ -22,13 +22,14 @@ public class CarParameters {
     public CarParameters() {
     }
 
-    public Long getCarId() {
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
+
+    public String getCarId() {
         return carId;
     }
 
-    public void setCarId(Long carId) {
-        this.carId = carId;
-    }
 
     public Map<CarParameter, Object> getParameters() {
         return parameters;
