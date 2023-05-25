@@ -27,4 +27,8 @@ public class MongoSaver {
         carRepository.save(carParameters);
     }
 
+    public CarParameters readActualParameters(String carId) {
+        return carRepository.findActualValueByCarId(carId).get();
+    }
+
 }

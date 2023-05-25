@@ -1,6 +1,7 @@
 package backend.controllers;
 
 import backend.services.CarServiceImpl;
+import backend.services.MongoSaver;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class CarController {
     @Autowired
     private CarServiceImpl carService;
 
+    @Autowired
+    private MongoSaver mongoSaver;
+
     @GetMapping("/cars")
     public ResponseEntity<?> getCars(){
         try {
@@ -27,6 +31,12 @@ public class CarController {
     @PostMapping("/cars/add")
     public ResponseEntity<?> addCar(@RequestBody String carNumber){
         return ResponseEntity.ok("Privet");
+    }
+
+
+    @GetMapping("/car")
+    public ResponseEntity<?> getCarInfo(@RequestParam String carNumber) {
+        return ResponseEntity.ok(mongoSaver.readActualParameters(carNumber));
     }
 
 }
