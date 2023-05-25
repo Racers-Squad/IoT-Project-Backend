@@ -47,7 +47,9 @@ public class MqttHandlerMachine {
             MqttMessage msg = readEngineTemp();
             msg.setQos(0);
             msg.setRetained(true);
+            System.out.println(msg);
             publisher.publish(machineNumber, msg);
+            System.out.println("Message sended");
             Thread.sleep(1000);
         }
     }

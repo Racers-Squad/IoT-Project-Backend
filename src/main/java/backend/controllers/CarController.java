@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -24,6 +22,11 @@ public class CarController {
         } catch (MqttException exception){
             return ResponseEntity.status(500).body("Mqtt problems on server");
         }
+    }
+
+    @PostMapping("/cars/add")
+    public ResponseEntity<?> addCar(@RequestBody String carNumber){
+        return ResponseEntity.ok("Privet");
     }
 
 }
