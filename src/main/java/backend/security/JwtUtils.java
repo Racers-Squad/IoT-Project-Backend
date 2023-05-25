@@ -4,7 +4,7 @@ import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import static io.jsonwebtoken.lang.Strings.hasText;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;

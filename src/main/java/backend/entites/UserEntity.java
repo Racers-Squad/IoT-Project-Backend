@@ -4,12 +4,12 @@ package backend.entites;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user", schema = "public", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(name = "users", schema = "public", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class UserEntity {
 
     @Id
