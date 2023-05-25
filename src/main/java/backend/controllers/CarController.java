@@ -1,5 +1,6 @@
 package backend.controllers;
 
+import backend.DTO.AddCarRequest;
 import backend.services.CarServiceImpl;
 import backend.services.MongoSaver;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +30,8 @@ public class CarController {
     }
 
     @PostMapping("/cars/add")
-    public ResponseEntity<?> addCar(@RequestBody String carNumber, String carBrand){
-        if (carService.addCar(carNumber, carBrand)){
+    public ResponseEntity<?> addCar(@RequestBody AddCarRequest request){
+        if (carService.addCar(request.getCarNumber(), request.getCarBrand())){
             return ResponseEntity.ok("Car added.");
         } else {
             return ResponseEntity.status(500).body("Mqtt problems with adding car.");
