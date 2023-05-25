@@ -1,4 +1,4 @@
-package mqtt.config;
+package machineSimulation;
 
 import org.eclipse.paho.client.mqttv3.*;
 

@@ -1,6 +1,5 @@
 package machineSimulation;
 
-import mqtt.config.MqttHandlerMachine;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.regex.Pattern;
