@@ -1,6 +1,7 @@
 package backend.entity;
 
 import backend.services.cars.CarParameter;
+import jakarta.persistence.GeneratedValue;
 import org.springframework.data.annotation.Id;
 
 import java.time.Instant;
@@ -10,7 +11,8 @@ import java.util.Map;
 public class CarParameters {
 
     @Id
-    private Long id;
+    @GeneratedValue
+    private String id;
 
     private String carId;
 
@@ -55,11 +57,11 @@ public class CarParameters {
         this.validTo = validTo;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

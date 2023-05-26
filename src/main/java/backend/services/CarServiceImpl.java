@@ -40,26 +40,10 @@ public class CarServiceImpl implements CarService {
     private Map<String, IMqttClient> clientsMap = new HashMap<>();
 
     public List<CarInfoResponse> getCars() throws MqttException {
-        List<String> topics = new ArrayList<>();
-        List<String> brands = new ArrayList<>();
         List<CarInfoResponse> result = new ArrayList<>();
-        CountDownLatch receivedSignal = new CountDownLatch(10);
-        IMqttMessageListener listener = new IMqttMessageListener() {
-            @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                String message = new String(mqttMessage.getPayload());
-                log.info("Received message: " + message);
-                topics.add(topic);
-                //TODO Сделать нормальную обработку марки машины
-                brands.add(message);
-                receivedSignal.await(1, TimeUnit.MINUTES);
-            }
-        };
-
-        IMqttClient client = mqttService.createClientWithAllTopics(listener);
-        for (int i = 0; i < topics.size(); i++){
-            CarInfoResponse carInfoResponse = new CarInfoResponse(i, topics.get(i), brands.get(i));
-            result.add(carInfoResponse);
+        List<CarEntity> entities = carPostgresRepository.findAll();
+        for (int i = 0; i < entities.size(); i++){
+            result.add(new CarInfoResponse(i, entities.get(i).getCarNumber(), entities.get(i).getCarBrand()));
         }
         return result;
     }
