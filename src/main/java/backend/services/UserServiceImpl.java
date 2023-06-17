@@ -1,6 +1,7 @@
 package backend.services;
 
 import backend.DTO.AuthRequest;
+import backend.DTO.RegistrationRequest;
 import backend.entity.UserEntity;
 import backend.exceptions.UserAlreadyExistsException;
 import backend.exceptions.UserNotFoundException;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserServiceImpl {
@@ -22,11 +25,17 @@ public class UserServiceImpl {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public void register(AuthRequest authRequest) throws UserAlreadyExistsException {
-        if (userRepository.existsByEmail(authRequest.getEmail())) {
+    public void register(RegistrationRequest request) throws UserAlreadyExistsException {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExistsException("Email is already in use.");
         }
-        UserEntity user = new UserEntity(authRequest.getEmail(), Hasher.encryptMD5(authRequest.getPassword()), false);
+        UserEntity user = new UserEntity();
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setSurname(request.getSurname());
+        user.setPhone(request.getPhone());
+        user.setPassword(request.getPassword());
+        user.setAdminRights(request.getIsAdmin());
         userRepository.save(user);
     }
 
@@ -43,5 +52,13 @@ public class UserServiceImpl {
     public boolean checkAdminRoots(String token){
         String email = jwtUtils.getEmailFromToken(token);
         return userRepository.findByEmail(email).isAdminRights();
+    }
+
+    public void deleteById(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    public List<UserEntity> findAll() {
+        return userRepository.findAll();
     }
 }

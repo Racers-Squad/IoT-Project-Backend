@@ -1,5 +1,6 @@
 package backend.entity;
 
+import backend.DTO.CarStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,20 +8,23 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "cars", schema = "public")
+@Table(name = "car", schema = "public")
 public class CarEntity {
 
     @Id
-    @Column(name = "car_number", columnDefinition = "varchar(9) PRIMARY KEY NOT NULL")
-    private String carNumber;
+    @Column(name = "id", columnDefinition = "varchar(15) PRIMARY KEY NOT NULL")
+    private String id;
 
-    @Column(name="car_brand", columnDefinition = "varchar(255) NOT NULL")
+    @Column(name="carBrand", columnDefinition = "varchar(50) NOT NULL")
     private String carBrand;
 
-    public CarEntity(String carNumber, String carBrand){
-        this.carNumber = carNumber;
-        this.carBrand = carBrand;
-    }
+    @Column(name = "model")
+    private String model;
 
-    public CarEntity(){}
+    @Column(name = "year")
+    private Integer year;
+
+    @Column(name = "status")
+    private CarStatus status;
+
 }

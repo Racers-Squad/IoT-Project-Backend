@@ -6,6 +6,11 @@ public class AddCarRequest {
 
     private String carBrand;
 
+    private String model;
+
+    private Integer year;
+
+
     public String getCarNumber() {
         return carNumber;
     }
