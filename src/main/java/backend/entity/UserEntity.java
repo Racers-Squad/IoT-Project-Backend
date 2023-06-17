@@ -29,7 +29,7 @@ public class UserEntity {
     @Column(name = "email", columnDefinition = "varchar(255) UNIQUE NOT NULL")
     private String email;
 
-    @Column(name = "admin_rights", columnDefinition = "boolean")
+    @Column(name = "isAdmin", columnDefinition = "boolean")
     private boolean adminRights;
 
     public UserEntity(String email, String password, boolean adminRights) {

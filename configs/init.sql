@@ -1,17 +1,8 @@
 SET search_path TO public;
 
-CREATE TABLE history (
-    id          serial PRIMARY KEY,
-    carNumber   varchar(9) NOT NULL,
-    user_id     integer NOT NULL,
-    start_time  timestamp NOT NULL,
-    end_time    timestamp NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
 -- Create User table
 CREATE TABLE Users (
-                       ID SERIAL PRIMARY KEY,
+                       ID INT PRIMARY KEY,
                        Name VARCHAR(50),
                        Surname VARCHAR(50),
                        Phone VARCHAR(20),
@@ -22,7 +13,7 @@ CREATE TABLE Users (
 
 -- Create Driver table
 CREATE TABLE Driver (
-                        ID SERIAL PRIMARY KEY,
+                        ID INT PRIMARY KEY,
                         UserID INT REFERENCES Users(ID),
                         DriverLicenseNumber VARCHAR(20)
 );
@@ -55,3 +46,12 @@ CREATE TABLE Trip (
                       StartTime TIMESTAMP,
                       EndTime TIMESTAMP
 );
+
+CREATE SEQUENCE user_id_sequense INCREMENT 1 START 1;
+CREATE SEQUENCE int_id_sequense INCREMENT 1 START 1;
+CREATE SEQUENCE reservation_id_sequense INCREMENT 1 START 1;
+CREATE SEQUENCE trip_id_sequense INCREMENT 1 START 1;
+
+
+INSERT INTO Users VALUES
+(nextval(user_id_sequense), 'Admin', 'Admin', '+7 800 555-35-35', 'admin', 'admin', 1);

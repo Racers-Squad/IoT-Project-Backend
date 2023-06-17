@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -34,7 +35,7 @@ public class UserServiceImpl {
         user.setName(request.getName());
         user.setSurname(request.getSurname());
         user.setPhone(request.getPhone());
-        user.setPassword(request.getPassword());
+        user.setPassword(Hasher.encryptMD5(request.getPassword()));
         user.setAdminRights(request.getIsAdmin());
         userRepository.save(user);
     }
