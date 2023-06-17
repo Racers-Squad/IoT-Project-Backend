@@ -2,7 +2,7 @@ package backend.DTO;
 
 public class AddCarRequest {
 
-    private String carNumber;
+    private String id;
 
     private String carBrand;
 
@@ -11,12 +11,12 @@ public class AddCarRequest {
     private Integer year;
 
 
-    public String getCarNumber() {
-        return carNumber;
+    public String getId() {
+        return id;
     }
 
-    public void setCarNumber(String carNumber) {
-        this.carNumber = carNumber;
+    public void setCarNumber(String id) {
+        this.id = id;
     }
 
     public String getCarBrand() {

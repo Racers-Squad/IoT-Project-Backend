@@ -31,7 +31,7 @@ public class CarController {
 
     @PostMapping("/cars/add")
     public ResponseEntity<?> addCar(@RequestBody AddCarRequest request){
-        if (carService.addCar(request.getCarNumber(), request.getCarBrand())){
+        if (carService.addCar(request.getId(), request.getCarBrand())){
             return ResponseEntity.ok("Car added.");
         } else {
             return ResponseEntity.status(500).body("Mqtt problems with adding car.");
