@@ -1,6 +1,7 @@
 package backend.services;
 
 import backend.DTO.CarInfoResponse;
+import backend.DTO.CarStatus;
 import backend.entity.CarEntity;
 import backend.repository.CarPostgresRepository;
 import backend.services.cars.CarMessage;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,12 +42,21 @@ public class CarServiceImpl implements CarService {
     private Map<String, IMqttClient> clientsMap = new HashMap<>();
 
     public List<CarInfoResponse> getCars() throws MqttException {
-        List<CarInfoResponse> result = new ArrayList<>();
         List<CarEntity> entities = carPostgresRepository.findAll();
-        for (int i = 0; i < entities.size(); i++){
-            result.add(new CarInfoResponse(i, entities.get(i).getCarNumber(), entities.get(i).getCarBrand()));
-        }
-        return result;
+        return entities.stream()
+                .map(this::buildCarInfoResponse)
+                .toList();
+    }
+
+    private CarInfoResponse buildCarInfoResponse(CarEntity entity) {
+        CarInfoResponse carInfoResponse = new CarInfoResponse();
+        carInfoResponse.setId(0);
+        carInfoResponse.setCarNumber(entity.getId());
+        carInfoResponse.setCarBrand(entity.getCarBrand());
+        carInfoResponse.setModel(entity.getModel());
+        carInfoResponse.setStatus(entity.getStatus().getLabel());
+        carInfoResponse.setYear(entity.getYear());
+        return carInfoResponse;
     }
 
     public boolean addCar(String carNumber, String carBrand){
@@ -56,7 +67,12 @@ public class CarServiceImpl implements CarService {
                     ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(mqttMessage.getPayload()));
                     CarMessage message = (CarMessage) ois.readObject();
                     if (carPostgresRepository.findByCarNumber(message.getCarId()) == null){
-                        carPostgresRepository.save(new CarEntity(message.getCarId(), carBrand));
+                        CarEntity entity = new CarEntity();
+                        entity.setModel("Kalina");
+                        entity.setCarBrand(carBrand);
+                        entity.setYear(2007);
+                        entity.setStatus(CarStatus.FREE);
+                        carPostgresRepository.save(entity);
                     }
                     ZhiguliParamsResolver paramsResolver = new ZhiguliParamsResolver();
                     mongoSaver.save(paramsResolver.convertToGlobal(message.getCarId(), message.getValidFrom(), message.getValues()));

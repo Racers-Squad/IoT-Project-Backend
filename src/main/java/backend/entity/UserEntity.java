@@ -18,6 +18,12 @@ public class UserEntity {
     @Column(name = "id", columnDefinition = "serial primary key")
     private Long id;
 
+    private String name;
+
+    private String surname;
+
+    private String phone;
+
     @Column(name = "password", columnDefinition = "varchar(255) NOT NULL")
     private String password;
     @Column(name = "email", columnDefinition = "varchar(255) UNIQUE NOT NULL")
@@ -34,5 +40,9 @@ public class UserEntity {
 
     public UserEntity() {
 
+    }
+
+    public boolean isAdmin() {
+        return adminRights;
     }
 }

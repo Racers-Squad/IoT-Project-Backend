@@ -1,12 +1,19 @@
 package backend.DTO;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CarInfoResponse {
 
     private int id;
 
     private String carNumber;
-
     private String carBrand;
+    private String model;
+    private Integer year;
+    private String status;
 
     public CarInfoResponse(int id, String carNumber, String carBrand){
         this.id = id;
@@ -14,27 +21,6 @@ public class CarInfoResponse {
         this.carBrand = carBrand;
     }
 
-    public int getId() {
-        return id;
-    }
+    public CarInfoResponse() {}
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCarNumber() {
-        return carNumber;
-    }
-
-    public void setCarNumber(String carNumber) {
-        this.carNumber = carNumber;
-    }
-
-    public String getCarBrand() {
-        return carBrand;
-    }
-
-    public void setCarBrand(String carBrand) {
-        this.carBrand = carBrand;
-    }
 }
