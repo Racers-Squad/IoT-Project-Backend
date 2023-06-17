@@ -12,10 +12,10 @@ import lombok.Setter;
 public class CarEntity {
 
     @Id
-    @Column(name = "id", columnDefinition = "varchar(15) PRIMARY KEY NOT NULL")
+    @Column(name = "id")
     private String id;
 
-    @Column(name="carBrand", columnDefinition = "varchar(50) NOT NULL")
+    @Column(name="carBrand")
     private String carBrand;
 
     @Column(name = "model")

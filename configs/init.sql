@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS  Driver (
 
 -- Create Car table
 CREATE TABLE IF NOT EXISTS  Car (
-                     id VARCHAR(15),
+                     id VARCHAR(15) PRIMARY KEY ,
                      carBrand VARCHAR(50),
                      Model VARCHAR(50),
                      Year INT,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS  Car (
 
 -- Create Reservation table
 CREATE TABLE IF NOT EXISTS  Reservation (
-                             ID SERIAL PRIMARY KEY,
+                             ID INT PRIMARY KEY,
                              DriverID INT REFERENCES Driver(ID),
                              CarID varchar(15) REFERENCES Car(ID),
                              StartTime TIMESTAMP,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS  Reservation (
 
 -- Create Trip table
 CREATE TABLE IF NOT EXISTS  Trip (
-                      ID SERIAL PRIMARY KEY,
+                      ID INT PRIMARY KEY,
                       DriverID INT REFERENCES Driver(ID),
                       CarID varchar(15) REFERENCES Car(ID),
                       StartLocation VARCHAR(100),
