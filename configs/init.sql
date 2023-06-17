@@ -1,7 +1,7 @@
 SET search_path TO public;
 
 -- Create User table
-CREATE TABLE Users (
+CREATE TABLE IF NOT EXISTS Users (
                        ID INT PRIMARY KEY,
                        Name VARCHAR(50),
                        Surname VARCHAR(50),
@@ -12,14 +12,14 @@ CREATE TABLE Users (
 );
 
 -- Create Driver table
-CREATE TABLE Driver (
+CREATE TABLE IF NOT EXISTS  Driver (
                         ID INT PRIMARY KEY,
                         UserID INT REFERENCES Users(ID),
                         DriverLicenseNumber VARCHAR(20)
 );
 
 -- Create Car table
-CREATE TABLE Car (
+CREATE TABLE IF NOT EXISTS  Car (
                      id VARCHAR(15),
                      carBrand VARCHAR(50),
                      Model VARCHAR(50),
@@ -28,7 +28,7 @@ CREATE TABLE Car (
 );
 
 -- Create Reservation table
-CREATE TABLE Reservation (
+CREATE TABLE IF NOT EXISTS  Reservation (
                              ID SERIAL PRIMARY KEY,
                              DriverID INT REFERENCES Driver(ID),
                              CarID varchar(15) REFERENCES Car(ID),
@@ -37,7 +37,7 @@ CREATE TABLE Reservation (
 );
 
 -- Create Trip table
-CREATE TABLE Trip (
+CREATE TABLE IF NOT EXISTS  Trip (
                       ID SERIAL PRIMARY KEY,
                       DriverID INT REFERENCES Driver(ID),
                       CarID varchar(15) REFERENCES Car(ID),
@@ -47,10 +47,10 @@ CREATE TABLE Trip (
                       EndTime TIMESTAMP
 );
 
-CREATE SEQUENCE user_id_sequense INCREMENT 1 START 1;
-CREATE SEQUENCE int_id_sequense INCREMENT 1 START 1;
-CREATE SEQUENCE reservation_id_sequense INCREMENT 1 START 1;
-CREATE SEQUENCE trip_id_sequense INCREMENT 1 START 1;
+CREATE SEQUENCE IF NOT EXISTS  user_id_sequense INCREMENT 1 START 1;
+CREATE SEQUENCE IF NOT EXISTS  int_id_sequense INCREMENT 1 START 1;
+CREATE SEQUENCE IF NOT EXISTS  reservation_id_sequense INCREMENT 1 START 1;
+CREATE SEQUENCE IF NOT EXISTS trip_id_sequense INCREMENT 1 START 1;
 
 
 INSERT INTO Users VALUES
