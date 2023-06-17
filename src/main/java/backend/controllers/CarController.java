@@ -43,5 +43,5 @@ public class CarController {
     public ResponseEntity<?> getCarInfo(@RequestParam String carNumber) {
         return ResponseEntity.ok(mongoSaver.readActualParameters(carNumber));
     }
-
+    
 }

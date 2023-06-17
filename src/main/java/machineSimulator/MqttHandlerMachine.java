@@ -1,6 +1,5 @@
-package machineSimulation;
+package machineSimulator;
 
-import backend.entity.CarParameters;
 import backend.services.cars.CarMessage;
 import org.eclipse.paho.client.mqttv3.*;
 
@@ -33,7 +32,7 @@ public class MqttHandlerMachine {
 
     public IMqttClient generateMqttConnection() throws MqttException{
         String publisherId = UUID.randomUUID().toString();
-        IMqttClient publisher = new MqttClient("tcp://localhost:1883",publisherId);
+        IMqttClient publisher = new MqttClient("tcp://" + System.getenv("BROKER_IP")+":1883",publisherId);
 
         MqttConnectOptions options = new MqttConnectOptions();
         options.setAutomaticReconnect(true);

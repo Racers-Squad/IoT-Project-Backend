@@ -35,3 +35,43 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - "27017:27017"
+  car1:
+    image: amazoncorretto:17-alpine-jdk
+    volumes:
+      - ./Machine-Simulator-1.0.jar:/app/Machine-Simulator-1.0.jar
+    command: java -jar /app/Machine-Simulator-1.0.jar
+    environment:
+      - CAR_NUMBER=С843АС161
+      - BROKER_IP=mosquitto-broker
+    depends_on:
+      - mosquitto-broker
+  car2:
+    image: amazoncorretto:17-alpine-jdk
+    volumes:
+      - ./Machine-Simulator-1.0.jar:/app/Machine-Simulator-1.0.jar
+    command: java -jar /app/Machine-Simulator-1.0.jar
+    environment:
+      - CAR_NUMBER=Ф777АС198
+      - BROKER_IP=mosquitto-broker
+    depends_on:
+      - mosquitto-broker
+  car3:
+    image: amazoncorretto:17-alpine-jdk
+    volumes:
+      - ./Machine-Simulator-1.0.jar:/app/Machine-Simulator-1.0.jar
+    command: java -jar /app/Machine-Simulator-1.0.jar
+    environment:
+      - CAR_NUMBER=Е666КХ161
+      - BROKER_IP=mosquitto-broker
+    depends_on:
+      - mosquitto-broker
+  car4:
+    image: amazoncorretto:17-alpine-jdk
+    volumes:
+      - ./Machine-Simulator-1.0.jar:/app/Machine-Simulator-1.0.jar
+    command: java -jar /app/Machine-Simulator-1.0.jar
+    environment:
+      - CAR_NUMBER=А432МР750
+      - BROKER_IP=mosquitto-broker
+    depends_on:
+      - mosquitto-broker            

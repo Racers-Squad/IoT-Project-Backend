@@ -4,7 +4,6 @@ import backend.DTO.CarInfoResponse;
 import backend.entity.CarEntity;
 import backend.repository.CarPostgresRepository;
 import backend.services.cars.CarMessage;
-import backend.services.cars.CarParamsResolver;
 import backend.services.cars.ZhiguliParamsResolver;
 import backend.services.interfaces.CarService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j

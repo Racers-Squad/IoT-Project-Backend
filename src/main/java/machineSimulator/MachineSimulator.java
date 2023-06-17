@@ -1,4 +1,4 @@
-package machineSimulation;
+package machineSimulator;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
@@ -25,8 +25,8 @@ public class MachineSimulator {
 
     public static void main(String[] args) {
 
-        if (patternTaxiNumber.matcher(args[0]).find() || patternMachineNumber.matcher(args[0]).find()){
-            machineNumber = args[0];
+        if (patternTaxiNumber.matcher(System.getenv("CAR_NUMBER")).find() || patternMachineNumber.matcher(System.getenv("CAR_NUMBER")).find()){
+            machineNumber = System.getenv("CAR_NUMBER");
         } else {
             System.err.println("Machine number is incorrect.");
             System.exit(1);
@@ -46,5 +46,4 @@ public class MachineSimulator {
             System.exit(1);
         }
     }
-
 }
