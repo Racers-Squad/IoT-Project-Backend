@@ -76,6 +76,10 @@ public class ReservationService {
                 .toList();
     }
 
+    public List<ReservationEntity> findAllEntites() {
+        return reservationRepository.findAll();
+    }
+
     public ReservationInfoResponse findCurrentByDriver(Long driverId) {
         ReservationEntity entity = reservationRepository.findCurrentByDriver(driverId);
         if (entity != null) {
