@@ -70,11 +70,10 @@ public class UserController {
                 String email = jwtUtils.getEmailFromToken(token);
                 UserEntity user = userService.findByEmail(email);
                 ReservationInfoResponse reservation = reservationService.findCurrentByDriver(user.getId());
-
+                Long resId = reservation != null ? reservation.getId() : null;
                 Map<String, Object> json = new HashMap<>();
                 json.put("token", jwtUtils.generateToken(email));
-                json.put("reservationId", reservation.getId());
-
+                json.put("reservationId", resId);
                 return ResponseEntity.ok(json);
             }
         }
