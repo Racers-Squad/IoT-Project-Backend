@@ -1,10 +1,9 @@
 package backend.entity;
 
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import jakarta.persistence.*;
 
 @Getter
 @Setter
@@ -24,12 +23,12 @@ public class UserEntity {
 
     private String phone;
 
-    @Column(name = "password", columnDefinition = "varchar(255) NOT NULL")
+    @Column(name = "password")
     private String password;
-    @Column(name = "email", columnDefinition = "varchar(255) UNIQUE NOT NULL")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "isAdmin", columnDefinition = "boolean")
+    @Column(name = "isadmin")
     private boolean adminRights;
 
     public UserEntity(String email, String password, boolean adminRights) {

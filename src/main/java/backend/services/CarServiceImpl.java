@@ -8,6 +8,7 @@ import backend.services.cars.CarMessage;
 import backend.services.cars.CarParamsResolver;
 import backend.services.cars.ZhiguliParamsResolver;
 import backend.services.interfaces.CarService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -39,7 +40,9 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarPostgresRepository carPostgresRepository;
 
-    private Map<String, IMqttClient> clientsMap = new HashMap<>();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    private final Map<String, IMqttClient> clientsMap = new HashMap<>();
 
     public List<CarInfoResponse> getCars() throws MqttException {
         List<CarEntity> entities = carPostgresRepository.findAll();
@@ -50,8 +53,7 @@ public class CarServiceImpl implements CarService {
 
     private CarInfoResponse buildCarInfoResponse(CarEntity entity) {
         CarInfoResponse carInfoResponse = new CarInfoResponse();
-        carInfoResponse.setId(0);
-        carInfoResponse.setCarNumber(entity.getId());
+        carInfoResponse.setId(entity.getId());
         carInfoResponse.setCarBrand(entity.getCarBrand());
         carInfoResponse.setModel(entity.getModel());
         carInfoResponse.setStatus(entity.getStatus().getLabel());
@@ -64,8 +66,8 @@ public class CarServiceImpl implements CarService {
             IMqttMessageListener listener = new IMqttMessageListener() {
                 @Override
                 public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(mqttMessage.getPayload()));
-                    CarMessage message = (CarMessage) ois.readObject();
+                    String json = new String(mqttMessage.getPayload());
+                    CarMessage message = objectMapper.readValue(json, CarMessage.class);
                     if (carPostgresRepository.findByCarNumber(message.getCarId()) == null){
                         CarEntity entity = new CarEntity();
                         entity.setModel("Kalina");
