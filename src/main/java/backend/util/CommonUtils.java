@@ -24,7 +24,7 @@ public class CommonUtils {
 
     public static Date parseDate(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat(DEFAULT_DATE_TIME);
-        if (date == null) {
+        if (date == null || date.equals("")) {
             return null;
         }
         return formatter.parse(date);
