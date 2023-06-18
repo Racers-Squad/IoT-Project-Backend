@@ -5,6 +5,7 @@ import backend.entity.ReservationEntity;
 import backend.entity.UserEntity;
 import backend.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,8 +34,9 @@ public class CarRentalController {
     }
 
     @PostMapping("/reservation/stop")
-    public void finishReservation(@RequestBody Long reservationId) {
+    public ResponseEntity<?> finishReservation(@RequestBody Long reservationId) {
         reservationService.finish(reservationId);
+        return ResponseEntity.ok("Reservation is finished");
     }
 
 }
