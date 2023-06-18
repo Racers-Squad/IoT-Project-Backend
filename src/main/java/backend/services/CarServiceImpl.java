@@ -50,7 +50,7 @@ public class CarServiceImpl implements CarService {
                 .toList();
     }
 
-    private CarInfoResponse buildCarInfoResponse(CarEntity entity) {
+    public CarInfoResponse buildCarInfoResponse(CarEntity entity) {
         CarInfoResponse carInfoResponse = new CarInfoResponse();
         carInfoResponse.setId(entity.getId());
         carInfoResponse.setCarBrand(entity.getCarBrand());
@@ -101,6 +101,10 @@ public class CarServiceImpl implements CarService {
         client.disconnect();
         client.close();
         clientsMap.remove(carId);
+    }
+
+    public CarEntity getCar(String id) {
+        return carPostgresRepository.getById(id);
     }
 
     public TotalCarInfoResponse getFullCarInfo(String carId) {

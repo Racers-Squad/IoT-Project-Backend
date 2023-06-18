@@ -96,7 +96,7 @@ public class ReservationService {
         return null;
     }
 
-    private ReservationInfoResponse buildReservation(ReservationEntity reservationEntity) {
+    public ReservationInfoResponse buildReservation(ReservationEntity reservationEntity) {
         Optional<UserEntity> userOptional = userRepository.findById(reservationEntity.getDriverId());
         Optional<CarEntity> carOptional = carPostgresRepository.findById(reservationEntity.getCarId());
 

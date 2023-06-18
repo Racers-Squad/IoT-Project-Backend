@@ -1,10 +1,16 @@
 package backend.services;
 
+import backend.DTO.CarInfoResponse;
+import backend.DTO.ReservationInfoResponse;
+import backend.entity.ReservationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Map;
+import java.time.Duration;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StatisticService {
@@ -18,9 +24,59 @@ public class StatisticService {
     @Autowired
     private UserServiceImpl userService;
 
-    public Map<String, Object> getReservationStats(Long userId, String carId, Date start, Date end) {
+    @Autowired
+    private TripServiceImpl tripService;
 
+    public Map<String, Object> getReservationStats(Long userId, String carId, Date start, Date end) {
+        List<ReservationEntity> reservations = reservationService.findAllEntites();
+        Stream<ReservationEntity> stream = reservations.stream();
+        stream = stream.filter(it -> it.getEndTime() != null);
+        if (start != null) {
+            stream = stream.filter(it -> it.getStartTime().after(start));
+        }
+        if (end != null) {
+            stream = stream.filter(it -> it.getEndTime().before(end));
+        }
+        if (userId != null) {
+            stream = stream.filter(it -> it.getDriverId().equals(userId));
+        }
+        if (carId != null) {
+            stream = stream.filter(it -> it.getCarId().equals(carId));
+        }
+        reservations = stream.toList();
+
+        Map<String, Object> result = new HashMap<>();
+
+        long avgDuration = reservations.stream()
+                .mapToLong(it -> (it.getStartTime().getTime() + it.getEndTime().getTime()))
+                .sum();
+        avgDuration = avgDuration / reservations.size();
+        avgDuration /= (double)(1000 * 3600 * 24);
+
+        Optional<Map.Entry<String, Long>> max = reservations.stream()
+                .collect(Collectors.groupingBy(it -> String.valueOf(it.getCarId()),
+                        HashMap::new, Collectors.counting()))
+                .entrySet().stream()
+                .max((a, b) -> (int) (a.getValue() - b.getValue()));
+
+        String popularCar = "None";
+        if (max.isPresent()) {
+            popularCar = carService.getCar(max.get().getKey()).getCarBrand();
+        }
+
+        result.put("Средняя продолжительность", avgDuration);
+        result.put("Частая машина", popularCar);
+
+        List<ReservationInfoResponse> reservationInfos = new ArrayList<>();
+        for (ReservationEntity entity : reservations) {
+            reservationInfos.add(reservationService.buildReservation(entity));
+        }
+
+        result.put("Детали", reservationInfos);
+
+        return result;
     }
+
 
     public Map<String, Object> getTripStats(Long userId, String carId, Date start, Date end) {
 
