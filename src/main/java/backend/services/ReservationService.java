@@ -1,6 +1,7 @@
 package backend.services;
 
 import backend.DTO.CarInfoResponse;
+import backend.DTO.CarStatus;
 import backend.DTO.ReservationInfoResponse;
 import backend.DTO.UserInfoResponse;
 import backend.entity.CarEntity;
@@ -42,6 +43,7 @@ public class ReservationService {
         return reservationRepository.findByDriverAndTimeBetween(driverId, start, end);
     }
 
+    @Transactional
     public ReservationEntity create(Long userId, String carId) {
         ReservationEntity reservationEntity = new ReservationEntity();
         reservationEntity.setCarId(carId);
@@ -49,6 +51,10 @@ public class ReservationService {
         reservationEntity.setStartTime(new Date());
         reservationEntity.setEndTime(null);
         reservationRepository.save(reservationEntity);
+
+        CarEntity car = carPostgresRepository.findByCarNumber(carId);
+        car.setStatus(CarStatus.RESERVED);
+
         return reservationEntity;
     }
 
@@ -56,6 +62,12 @@ public class ReservationService {
     public void finish(Long reservationId) {
         Optional<ReservationEntity> entity = reservationRepository.findById(reservationId);
         entity.ifPresent(reservationEntity -> reservationEntity.setEndTime(new Date()));
+
+        entity.ifPresent(reservationEntity -> {
+            reservationEntity.setEndTime(new Date());
+            CarEntity car = carPostgresRepository.findByCarNumber(reservationEntity.getCarId());
+            car.setStatus(CarStatus.RESERVED);
+        });
     }
 
     public List<ReservationInfoResponse> findAll() {

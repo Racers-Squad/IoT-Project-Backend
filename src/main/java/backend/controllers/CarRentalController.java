@@ -9,10 +9,7 @@ import backend.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -45,7 +42,7 @@ public class CarRentalController {
     }
 
     @PostMapping("/reservation/stop")
-    public ResponseEntity<?> finishReservation(@RequestBody Long reservationId) {
+    public ResponseEntity<?> finishReservation(@RequestParam Long reservationId) {
         reservationService.finish(reservationId);
         return ResponseEntity.ok("Reservation is finished");
     }
