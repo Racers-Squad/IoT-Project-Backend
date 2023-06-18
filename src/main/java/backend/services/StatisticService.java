@@ -63,15 +63,19 @@ public class StatisticService {
             popularCar = carService.getCar(max.get().getKey()).getCarBrand();
         }
 
-        result.put("Средняя продолжительность", avgDuration);
-        result.put("Частая машина", popularCar);
+
+        Map<String, Object> temp = new HashMap<>();
+        temp.put("Средняя продолжительность", avgDuration);
+        temp.put("Частая машина", popularCar);
+
+        result.put("stats", temp);
 
         List<ReservationInfoResponse> reservationInfos = new ArrayList<>();
         for (ReservationEntity entity : reservations) {
             reservationInfos.add(reservationService.buildReservation(entity));
         }
 
-        result.put("Детали", reservationInfos);
+        result.put("details", reservationInfos);
 
         return result;
     }
@@ -98,8 +102,14 @@ public class StatisticService {
             tripCount.updateAndGet(v -> v + 1);
             tripHours.updateAndGet(v -> v + tripEntity.getEndTime().getTime() - tripEntity.getStartTime().getTime());
         });
-        result.put("TripCount", tripCount);
-        result.put("TripHours", (double) tripHours.get() / 1000 / 60 / 60);
+
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("Кол-во поездок", tripCount);
+        stats.put("Часов в пути", (double) tripHours.get() / 1000 / 60 / 60);
+        result.put("stats", stats);
+
+        result.put("details", new ArrayList<>());
+
         return result;
     }
 }

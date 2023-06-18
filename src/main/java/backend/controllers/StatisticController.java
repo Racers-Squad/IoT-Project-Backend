@@ -29,7 +29,7 @@ public class StatisticController {
         if (type == StatisticType.RESERVATIONS){
             return statisticService.getReservationStats(userId, carId, CommonUtils.parseDate(startTime), CommonUtils.parseDate(endTime));
         } else {
-            return statisticService.getTripStats(userId, carId, Date.valueOf(startTime), Date.valueOf(endTime));
+            return statisticService.getTripStats(userId, carId, CommonUtils.parseDate(startTime), CommonUtils.parseDate(endTime));
         }
     }
 
