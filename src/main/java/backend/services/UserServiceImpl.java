@@ -62,4 +62,8 @@ public class UserServiceImpl {
     public List<UserEntity> findAll() {
         return userRepository.findAll();
     }
+
+    public UserEntity findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

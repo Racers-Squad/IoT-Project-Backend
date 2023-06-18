@@ -2,10 +2,13 @@ package backend.controllers;
 
 import backend.DTO.AuthRequest;
 import backend.DTO.RegistrationRequest;
+import backend.DTO.ReservationInfoResponse;
+import backend.entity.UserEntity;
 import backend.exceptions.UserAlreadyExistsException;
 import backend.exceptions.UserNotFoundException;
 import backend.exceptions.WrongPasswordException;
 import backend.security.JwtUtils;
+import backend.services.ReservationService;
 import backend.services.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -23,6 +28,9 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -59,7 +67,15 @@ public class UserController {
         if(token != null){
             if(jwtUtils.validateToken(token)){
                 log.trace("Successful token check");
-                return ResponseEntity.ok(jwtUtils.generateToken(jwtUtils.getEmailFromToken(token)));
+                String email = jwtUtils.getEmailFromToken(token);
+                UserEntity user = userService.findByEmail(email);
+                ReservationInfoResponse reservation = reservationService.findCurrentByDriver(user.getId());
+
+                Map<String, Object> json = new HashMap<>();
+                json.put("token", jwtUtils.generateToken(email));
+                json.put("reservationId", reservation.getId());
+
+                return ResponseEntity.ok(json);
             }
         }
         log.debug("Unsuccessful token check");

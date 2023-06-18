@@ -64,6 +64,14 @@ public class ReservationService {
                 .toList();
     }
 
+    public ReservationInfoResponse findCurrentByDriver(Long driverId) {
+        ReservationEntity entity = reservationRepository.findCurrentByDriver(driverId);
+        if (entity != null) {
+            return buildReservation(entity);
+        }
+        return null;
+    }
+
     private ReservationInfoResponse buildReservation(ReservationEntity reservationEntity) {
         Optional<UserEntity> userOptional = userRepository.findById(reservationEntity.getDriverId());
         Optional<CarEntity> carOptional = carPostgresRepository.findById(reservationEntity.getCarId());

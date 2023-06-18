@@ -45,8 +45,9 @@ public class CarController {
     }
     
     @PostMapping("/cars/delete/{id}")
-    public void deleteCar(@PathVariable String id) throws MqttException {
+    public ResponseEntity<?> deleteCar(@PathVariable String id) throws MqttException {
         carService.deleteCar(id);
+        return ResponseEntity.ok("Car was successfully deleted");
     }
     
 }

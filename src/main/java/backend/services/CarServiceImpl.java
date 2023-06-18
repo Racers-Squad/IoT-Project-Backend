@@ -91,6 +91,7 @@ public class CarServiceImpl implements CarService {
     public void deleteCar(String carId) throws MqttException {
         carPostgresRepository.deleteById(carId);
         var client = clientsMap.get(carId);
+        client.disconnect();
         client.close();
         clientsMap.remove(carId);
     }

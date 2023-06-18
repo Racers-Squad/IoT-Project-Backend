@@ -14,6 +14,11 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
 
     List<ReservationEntity> findByDriverId(Long driverId);
 
+    @Query("from ReservationEntity e " +
+            "where e.driverId = :driver " +
+            "and e.endTime is null")
+    ReservationEntity findCurrentByDriver(Long driver);
+
     @Query("from ReservationEntity e where " +
             "e.driverId = :driverId " +
             "and e.startTime > :startTime " +
