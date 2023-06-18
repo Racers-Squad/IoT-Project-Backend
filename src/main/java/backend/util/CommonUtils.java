@@ -10,6 +10,9 @@ public class CommonUtils {
     public static final String DEFAULT_DATE_TIME = "dd.MM.yyyy HH:mm:ss";
 
     public static String formatDate(Date date, String format) {
+        if (date == null) {
+            return "null";
+        }
         DateFormat formatter = new SimpleDateFormat(format);
         return formatter.format(date);
     }
