@@ -54,4 +54,4 @@ CREATE SEQUENCE IF NOT EXISTS trip_id_sequense INCREMENT 1 START 1;
 
 
 INSERT INTO Users VALUES
-(1, 'Admin', 'Admin', '+7 800 555-35-35', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);
+(1, 'Admin', 'Admin', '+7 800 555-35-35', 'admin', '21232f297a57a5a743894a0e4a801fc3', true);

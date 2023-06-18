@@ -1,6 +1,7 @@
 package machineSimulator;
 
 import backend.services.cars.CarMessage;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.io.ByteArrayOutputStream;
@@ -67,19 +68,14 @@ public class MqttHandlerMachine {
 
     private MqttMessage generateMessage() throws IOException {
         Map<Long, Object> values = generateParams();
+        ObjectMapper JSONMapper = new ObjectMapper();
         CarMessage carMessage = new CarMessage();
         carMessage.setValidFrom(new Date());
         carMessage.setCarId(machineNumber);
         carMessage.setValues(values);
-        byte[] data = serialize(carMessage);
+        String carMsgAsString = JSONMapper.writeValueAsString(carMessage);
+        byte[] data = carMsgAsString.getBytes();
         return new MqttMessage(data);
-    }
-
-    private byte[] serialize(CarMessage params) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(params);
-        return baos.toByteArray();
     }
 
     private Map<Long, Object> generateParams() {
