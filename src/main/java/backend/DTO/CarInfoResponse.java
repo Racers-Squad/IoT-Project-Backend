@@ -7,17 +7,15 @@ import lombok.Setter;
 @Setter
 public class CarInfoResponse {
 
-    private int id;
 
-    private String carNumber;
+    private String id;
     private String carBrand;
     private String model;
     private Integer year;
     private String status;
 
-    public CarInfoResponse(int id, String carNumber, String carBrand){
+    public CarInfoResponse(String id, String carBrand){
         this.id = id;
-        this.carNumber = carNumber;
         this.carBrand = carBrand;
     }
 
