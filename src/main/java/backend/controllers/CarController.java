@@ -3,6 +3,7 @@ package backend.controllers;
 import backend.DTO.AddCarRequest;
 import backend.services.CarServiceImpl;
 import backend.services.MongoSaver;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,14 @@ public class CarController {
 
 
     @GetMapping("/car")
-    public ResponseEntity<?> getCarInfo(@RequestParam String carNumber) {
-        return ResponseEntity.ok(mongoSaver.readActualParameters(carNumber));
+    public ResponseEntity<?> getCarInfo(@RequestParam String id) {
+        return ResponseEntity.ok(mongoSaver.readActualParameters(id));
+    }
+
+    @SneakyThrows
+    @PostMapping("/cars/delete/{id}")
+    public void deleteCar(@PathVariable String id)  {
+        carService.deleteCar(id);
     }
     
 }

@@ -11,13 +11,6 @@ CREATE TABLE IF NOT EXISTS Users (
                        isAdmin boolean
 );
 
--- Create Driver table
-CREATE TABLE IF NOT EXISTS  Driver (
-                        ID INT PRIMARY KEY,
-                        UserID INT REFERENCES Users(ID),
-                        DriverLicenseNumber VARCHAR(20)
-);
-
 -- Create Car table
 CREATE TABLE IF NOT EXISTS  Car (
                      id VARCHAR(15) PRIMARY KEY ,
@@ -30,7 +23,7 @@ CREATE TABLE IF NOT EXISTS  Car (
 -- Create Reservation table
 CREATE TABLE IF NOT EXISTS  Reservation (
                              ID INT PRIMARY KEY,
-                             DriverID INT REFERENCES Driver(ID),
+                             DriverID INT REFERENCES Users(ID),
                              CarID varchar(15) REFERENCES Car(ID),
                              StartTime TIMESTAMP,
                              EndTime TIMESTAMP
@@ -39,7 +32,7 @@ CREATE TABLE IF NOT EXISTS  Reservation (
 -- Create Trip table
 CREATE TABLE IF NOT EXISTS  Trip (
                       ID INT PRIMARY KEY,
-                      DriverID INT REFERENCES Driver(ID),
+                      DriverID INT REFERENCES Users(ID),
                       CarID varchar(15) REFERENCES Car(ID),
                       StartLocation VARCHAR(100),
                       EndLocation VARCHAR(100),
