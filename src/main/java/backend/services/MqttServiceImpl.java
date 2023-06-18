@@ -2,16 +2,19 @@ package backend.services;
 
 import backend.services.interfaces.MqttService;
 import org.eclipse.paho.client.mqttv3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 public class MqttServiceImpl implements MqttService {
+    @Value("${broker-url}")
+    private String brokerURL;
     @Override
     public IMqttClient createClientWithAllTopics(IMqttMessageListener listener) throws MqttException{
         String publisherId = UUID.randomUUID().toString();
-        IMqttClient subscriber = new MqttClient("tcp://localhost:1883",publisherId);
+        IMqttClient subscriber = new MqttClient(brokerURL,publisherId);
         MqttConnectOptions options = generateConnectionOptions();
         subscriber.connect(options);
         subscriber.subscribe("#", listener);
@@ -21,7 +24,7 @@ public class MqttServiceImpl implements MqttService {
     @Override
     public IMqttClient createClientWithTopic(String topic, IMqttMessageListener listener) throws MqttException {
         String publisherId = UUID.randomUUID().toString();
-        IMqttClient subscriber = new MqttClient("tcp://localhost:1883",publisherId);
+        IMqttClient subscriber = new MqttClient(brokerURL,publisherId);
         MqttConnectOptions options = generateConnectionOptions();
         subscriber.connect(options);
         subscriber.subscribe(topic, listener);
