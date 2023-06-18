@@ -17,10 +17,10 @@ public class TripEntity {
 
     @Id
     @Column(name="id", columnDefinition = "INT PRIMARY KEY")
-    private Integer id;
+    private Long id;
 
     @Column(name="driverID", columnDefinition = "INT REFERENCES Driver(ID)")
-    private Integer driverId;
+    private Long driverId;
 
     @Column(name="carID", columnDefinition = "varchar(15) REFERENCES Car(ID)")
     private String carId;

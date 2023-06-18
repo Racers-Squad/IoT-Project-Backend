@@ -1,5 +1,6 @@
 package backend.controllers;
 
+import backend.services.ReservationService;
 import backend.services.TripServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,14 @@ public class TripController {
 
     @GetMapping("/trip/start/{carId}")
     public ResponseEntity<?> startTrip(@PathVariable String carId){
-        //TODO Взаимодействие с reservation
-        return ResponseEntity.ok("Privet");
+        log.debug("Started trip for car: " + carId);
+        return ResponseEntity.ok(tripService.startTrip(carId));
+    }
+
+    @GetMapping("/trip/end/{carId}")
+    public ResponseEntity<?> endTrip(@PathVariable String carId){
+        log.debug("Ended trip for car: " + carId);
+        return ResponseEntity.ok(tripService.endTrip(carId));
     }
 
 }

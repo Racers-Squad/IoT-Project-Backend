@@ -12,7 +12,7 @@ public interface TripService {
 
     List<TripEntity> getTripsByDriver(Integer driverId);
 
-    void startTrip();
+    TripEntity startTrip(String carId);
 
-    void endTrip();
+    TripEntity endTrip(String carId);
 }
