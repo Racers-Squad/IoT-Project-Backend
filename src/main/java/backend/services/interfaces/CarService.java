@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CarService {
 
-    public List<CarInfoResponse> getCars() throws InterruptedException, MqttException;
+    List<CarInfoResponse> getCars() throws InterruptedException, MqttException;
 }

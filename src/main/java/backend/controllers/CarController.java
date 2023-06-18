@@ -40,8 +40,8 @@ public class CarController {
 
 
     @GetMapping("/car")
-    public ResponseEntity<?> getCarInfo(@RequestParam String carNumber) {
-        return ResponseEntity.ok(mongoSaver.readActualParameters(carNumber));
+    public ResponseEntity<?> getCarInfo(@RequestParam String id) {
+        return ResponseEntity.ok(mongoSaver.readActualParameters(id));
     }
     
 }
