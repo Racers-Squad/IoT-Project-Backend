@@ -1,6 +1,7 @@
 package backend.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -19,6 +20,14 @@ public class CommonUtils {
 
     public static String formatDate(Date date) {
         return formatDate(date, DEFAULT_DATE_TIME);
+    }
+
+    public static Date parseDate(String date) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(DEFAULT_DATE_TIME);
+        if (date == null) {
+            return null;
+        }
+        return formatter.parse(date);
     }
 
 }
