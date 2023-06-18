@@ -4,6 +4,8 @@ import backend.DTO.ReservationInfoResponse;
 import backend.entity.ReservationEntity;
 import backend.entity.UserEntity;
 import backend.services.ReservationService;
+import backend.services.UserServiceImpl;
+import backend.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController("/reservation")
 public class CarRentalController {
@@ -21,6 +24,8 @@ public class CarRentalController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private UserServiceImpl userService;
 
     @GetMapping
     public List<ReservationInfoResponse> getAllReservations() {
@@ -28,9 +33,15 @@ public class CarRentalController {
     }
 
     @PostMapping("/reservation/start")
-    public ReservationEntity reserveCar(@RequestBody String carId) {
-        UserEntity userEntity = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return reservationService.create(userEntity.getId(), carId);
+    public ReservationEntity reserveCar(@RequestBody Map<String, Object> json) {
+        String email = (String) json.get("email");
+        String carId = (String) json.get("carId");
+
+        UserEntity user = userService.findByEmail(email);
+        if (user == null) {
+            return null;
+        }
+        return reservationService.create(user.getId(), carId);
     }
 
     @PostMapping("/reservation/stop")
