@@ -17,8 +17,6 @@ public class CarController {
     @Autowired
     private CarServiceImpl carService;
 
-    @Autowired
-    private MongoSaver mongoSaver;
 
     @GetMapping("/cars")
     public ResponseEntity<?> getCars(){
@@ -41,7 +39,7 @@ public class CarController {
 
     @GetMapping("/car")
     public ResponseEntity<?> getCarInfo(@RequestParam String id) {
-        return ResponseEntity.ok(mongoSaver.readActualParameters(id));
+        return ResponseEntity.ok(carService.getFullCarInfo(id));
     }
     
     @PostMapping("/cars/delete/{id}")

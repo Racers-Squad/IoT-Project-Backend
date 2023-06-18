@@ -66,7 +66,7 @@ public class ReservationService {
         entity.ifPresent(reservationEntity -> {
             reservationEntity.setEndTime(new Date());
             CarEntity car = carPostgresRepository.findByCarNumber(reservationEntity.getCarId());
-            car.setStatus(CarStatus.RESERVED);
+            car.setStatus(CarStatus.FREE);
         });
     }
 

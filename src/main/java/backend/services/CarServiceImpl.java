@@ -3,7 +3,9 @@ package backend.services;
 import backend.DTO.CarInfoResponse;
 import backend.DTO.CarStatus;
 import backend.DTO.ReservationInfoResponse;
+import backend.DTO.TotalCarInfoResponse;
 import backend.entity.CarEntity;
+import backend.entity.CarParameters;
 import backend.repository.CarPostgresRepository;
 import backend.services.cars.CarMessage;
 import backend.services.cars.ZhiguliParamsResolver;
@@ -99,5 +101,16 @@ public class CarServiceImpl implements CarService {
         client.disconnect();
         client.close();
         clientsMap.remove(carId);
+    }
+
+    public TotalCarInfoResponse getFullCarInfo(String carId) {
+        CarParameters carParameters = mongoSaver.readActualParameters(carId);
+        CarEntity car = carPostgresRepository.findByCarNumber(carId);
+
+        TotalCarInfoResponse response = new TotalCarInfoResponse();
+        response.setCarInfoResponse(buildCarInfoResponse(car));
+        response.setCarParameters(carParameters);
+
+        return response;
     }
 }
