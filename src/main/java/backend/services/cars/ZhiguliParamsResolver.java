@@ -19,6 +19,7 @@ public class ZhiguliParamsResolver implements CarParamsResolver {
         parameterMappings.put(3L, PETROL_LEVEL);
         parameterMappings.put(4L, OUT_TEMPERATURE);
         parameterMappings.put(5L, ENGINE_RPM);
+        parameterMappings.put(6L, GPS_CORDS);
     }}
 
     public CarParameters convertToGlobal(String carId, Date validFrom, Map<Long, Object> values) {
