@@ -13,6 +13,7 @@ public class CarInfoResponse {
     private String model;
     private Integer year;
     private String status;
+    private Long reservation;
 
     public CarInfoResponse(String id, String carBrand){
         this.id = id;

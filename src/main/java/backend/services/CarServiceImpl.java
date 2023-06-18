@@ -2,10 +2,10 @@ package backend.services;
 
 import backend.DTO.CarInfoResponse;
 import backend.DTO.CarStatus;
+import backend.DTO.ReservationInfoResponse;
 import backend.entity.CarEntity;
 import backend.repository.CarPostgresRepository;
 import backend.services.cars.CarMessage;
-import backend.services.cars.CarParamsResolver;
 import backend.services.cars.ZhiguliParamsResolver;
 import backend.services.interfaces.CarService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,15 +17,9 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -39,6 +33,9 @@ public class CarServiceImpl implements CarService {
 
     @Autowired
     private CarPostgresRepository carPostgresRepository;
+
+    @Autowired
+    private ReservationService reservationService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -58,6 +55,14 @@ public class CarServiceImpl implements CarService {
         carInfoResponse.setModel(entity.getModel());
         carInfoResponse.setStatus(entity.getStatus().getLabel());
         carInfoResponse.setYear(entity.getYear());
+
+        ReservationInfoResponse reservation = reservationService.findCurrentByCar(entity.getId());
+        if (reservation != null) {
+            carInfoResponse.setReservation(reservation.getId());
+        } else {
+            carInfoResponse.setReservation(null);
+        }
+
         return carInfoResponse;
     }
 
