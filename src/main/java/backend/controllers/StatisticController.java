@@ -19,10 +19,10 @@ public class StatisticController {
     private StatisticService statisticService;
 
     @GetMapping
-    public Object getStatistic(@RequestParam Long userId,
-                               @RequestParam String carId,
-                               @RequestParam String startTime,
-                               @RequestParam String endTime,
+    public Object getStatistic(@RequestParam(required = false) Long userId,
+                               @RequestParam(required = false) String carId,
+                               @RequestParam(required = false) String startTime,
+                               @RequestParam(required = false) String endTime,
                                @RequestParam StatisticType type) {
         if (type == StatisticType.RESERVATIONS){
             return statisticService.getReservationStats(userId, carId, Date.valueOf(startTime), Date.valueOf(endTime));
