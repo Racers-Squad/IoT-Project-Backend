@@ -1,6 +1,7 @@
 package backend.services;
 
 import backend.DTO.ReservationInfoResponse;
+import backend.DTO.TripInfoResponse;
 import backend.entity.ReservationEntity;
 import backend.entity.TripEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,12 +86,13 @@ public class StatisticService {
         Map<String, Object> result = new HashMap<>();
         AtomicReference<Long> tripCount = new AtomicReference<>(0L);
         AtomicReference<Long> tripHours = new AtomicReference<>(0L);
-        Stream<TripEntity> tripStream = tripService.getTrips().stream();
+        List<TripEntity> trips = tripService.getTrips();
+        Stream<TripEntity> tripStream = trips.stream();
         if (userId != null){
-            tripStream = tripStream.filter(tripEntity -> tripEntity.getDriverId() == userId);
+            tripStream = tripStream.filter(tripEntity -> Objects.equals(tripEntity.getDriverId(), userId));
         }
         if (carId != null){
-            tripStream = tripStream.filter(tripEntity -> tripEntity.getCarId() == carId);
+            tripStream = tripStream.filter(tripEntity -> Objects.equals(tripEntity.getCarId(), carId));
         }
         if (start != null){
             tripStream = tripStream.filter(tripEntity -> tripEntity.getStartTime().getTime() > start.getTime());
@@ -98,7 +100,8 @@ public class StatisticService {
         if (end != null){
             tripStream = tripStream.filter(tripEntity -> tripEntity.getEndTime().getTime() < end.getTime());
         }
-        tripStream.forEach(tripEntity -> {
+        trips = tripStream.toList();
+        trips.forEach(tripEntity -> {
             tripCount.updateAndGet(v -> v + 1);
             tripHours.updateAndGet(v -> v + tripEntity.getEndTime().getTime() - tripEntity.getStartTime().getTime());
         });
@@ -106,9 +109,17 @@ public class StatisticService {
         Map<String, Object> stats = new HashMap<>();
         stats.put("Кол-во поездок", tripCount);
         stats.put("Часов в пути", (double) tripHours.get() / 1000 / 60 / 60);
+        stats.put("Средняя продолжительность поездки", tripHours.get() / trips.size());
+        stats.put("Самая длинная поездка", trips.stream().mapToDouble(tripService::calculateDuration).max().orElse(0));
+        stats.put("Самая короткая поездка", trips.stream().mapToDouble(tripService::calculateDuration).min().orElse(0));
         result.put("stats", stats);
 
-        result.put("details", new ArrayList<>());
+        List<TripInfoResponse> details = new ArrayList<>();
+        for (TripEntity entity : trips) {
+            details.add(tripService.buildTripInfo(entity));
+        }
+
+        result.put("details", details);
 
         return result;
     }
